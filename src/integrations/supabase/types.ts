@@ -14,7 +14,475 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      audit_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          details: Json
+          entity_id: string | null
+          entity_type: string
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      emergency_responses: {
+        Row: {
+          available_resource: string
+          created_at: string
+          distance_km: number
+          emergency_id: string
+          facility_id: string
+          id: string
+          is_demo: boolean
+          responded_at: string | null
+          status: Database["public"]["Enums"]["workflow_status"]
+          travel_minutes: number
+        }
+        Insert: {
+          available_resource: string
+          created_at?: string
+          distance_km: number
+          emergency_id: string
+          facility_id: string
+          id?: string
+          is_demo?: boolean
+          responded_at?: string | null
+          status?: Database["public"]["Enums"]["workflow_status"]
+          travel_minutes: number
+        }
+        Update: {
+          available_resource?: string
+          created_at?: string
+          distance_km?: number
+          emergency_id?: string
+          facility_id?: string
+          id?: string
+          is_demo?: boolean
+          responded_at?: string | null
+          status?: Database["public"]["Enums"]["workflow_status"]
+          travel_minutes?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "emergency_responses_emergency_id_fkey"
+            columns: ["emergency_id"]
+            isOneToOne: false
+            referencedRelation: "emergency_sos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "emergency_responses_facility_id_fkey"
+            columns: ["facility_id"]
+            isOneToOne: false
+            referencedRelation: "facilities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      emergency_sos: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          emergency_type: string
+          id: string
+          is_demo: boolean
+          latitude: number
+          location_name: string
+          longitude: number
+          notes: string | null
+          quantity: number
+          reference_number: string
+          required_resource: string
+          status: Database["public"]["Enums"]["workflow_status"]
+          updated_at: string
+          urgency: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          emergency_type: string
+          id?: string
+          is_demo?: boolean
+          latitude: number
+          location_name: string
+          longitude: number
+          notes?: string | null
+          quantity?: number
+          reference_number: string
+          required_resource: string
+          status?: Database["public"]["Enums"]["workflow_status"]
+          updated_at?: string
+          urgency: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          emergency_type?: string
+          id?: string
+          is_demo?: boolean
+          latitude?: number
+          location_name?: string
+          longitude?: number
+          notes?: string | null
+          quantity?: number
+          reference_number?: string
+          required_resource?: string
+          status?: Database["public"]["Enums"]["workflow_status"]
+          updated_at?: string
+          urgency?: string
+        }
+        Relationships: []
+      }
+      facilities: {
+        Row: {
+          available_beds: number
+          created_at: string
+          critical_medicines: number
+          district: string
+          doctors_available: number
+          facility_type: string
+          icu_beds: number
+          id: string
+          is_demo: boolean
+          is_online: boolean
+          last_synced_at: string
+          latitude: number
+          longitude: number
+          name: string
+          specialists_available: number
+          state: string
+          status: Database["public"]["Enums"]["facility_status"]
+          updated_at: string
+        }
+        Insert: {
+          available_beds?: number
+          created_at?: string
+          critical_medicines?: number
+          district: string
+          doctors_available?: number
+          facility_type: string
+          icu_beds?: number
+          id?: string
+          is_demo?: boolean
+          is_online?: boolean
+          last_synced_at?: string
+          latitude: number
+          longitude: number
+          name: string
+          specialists_available?: number
+          state: string
+          status?: Database["public"]["Enums"]["facility_status"]
+          updated_at?: string
+        }
+        Update: {
+          available_beds?: number
+          created_at?: string
+          critical_medicines?: number
+          district?: string
+          doctors_available?: number
+          facility_type?: string
+          icu_beds?: number
+          id?: string
+          is_demo?: boolean
+          is_online?: boolean
+          last_synced_at?: string
+          latitude?: number
+          longitude?: number
+          name?: string
+          specialists_available?: number
+          state?: string
+          status?: Database["public"]["Enums"]["facility_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      inventory_items: {
+        Row: {
+          batch_number: string | null
+          created_at: string
+          current_stock: number
+          daily_usage: number
+          expiry_date: string | null
+          facility_id: string
+          id: string
+          is_demo: boolean
+          last_updated_at: string
+          medicine_id: string
+          reorder_level: number
+          sync_status: string
+          updated_at: string
+        }
+        Insert: {
+          batch_number?: string | null
+          created_at?: string
+          current_stock?: number
+          daily_usage?: number
+          expiry_date?: string | null
+          facility_id: string
+          id?: string
+          is_demo?: boolean
+          last_updated_at?: string
+          medicine_id: string
+          reorder_level?: number
+          sync_status?: string
+          updated_at?: string
+        }
+        Update: {
+          batch_number?: string | null
+          created_at?: string
+          current_stock?: number
+          daily_usage?: number
+          expiry_date?: string | null
+          facility_id?: string
+          id?: string
+          is_demo?: boolean
+          last_updated_at?: string
+          medicine_id?: string
+          reorder_level?: number
+          sync_status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_items_facility_id_fkey"
+            columns: ["facility_id"]
+            isOneToOne: false
+            referencedRelation: "facilities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_items_medicine_id_fkey"
+            columns: ["medicine_id"]
+            isOneToOne: false
+            referencedRelation: "medicines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medicines: {
+        Row: {
+          created_at: string
+          id: string
+          is_demo: boolean
+          name: string
+          unit: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_demo?: boolean
+          name: string
+          unit: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_demo?: boolean
+          name?: string
+          unit?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          description: string
+          facility_id: string | null
+          id: string
+          is_demo: boolean
+          is_read: boolean
+          notification_type: string
+          priority: Database["public"]["Enums"]["risk_level"]
+          recipient_id: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          facility_id?: string | null
+          id?: string
+          is_demo?: boolean
+          is_read?: boolean
+          notification_type: string
+          priority?: Database["public"]["Enums"]["risk_level"]
+          recipient_id?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          facility_id?: string | null
+          id?: string
+          is_demo?: boolean
+          is_read?: boolean
+          notification_type?: string
+          priority?: Database["public"]["Enums"]["risk_level"]
+          recipient_id?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_facility_id_fkey"
+            columns: ["facility_id"]
+            isOneToOne: false
+            referencedRelation: "facilities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      redistribution_recommendations: {
+        Row: {
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          destination_facility_id: string
+          distance_km: number
+          id: string
+          is_demo: boolean
+          quantity: number
+          reason: string
+          resource_name: string
+          source_facility_id: string
+          status: Database["public"]["Enums"]["workflow_status"]
+          travel_minutes: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          destination_facility_id: string
+          distance_km: number
+          id?: string
+          is_demo?: boolean
+          quantity: number
+          reason: string
+          resource_name: string
+          source_facility_id: string
+          status?: Database["public"]["Enums"]["workflow_status"]
+          travel_minutes: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          destination_facility_id?: string
+          distance_km?: number
+          id?: string
+          is_demo?: boolean
+          quantity?: number
+          reason?: string
+          resource_name?: string
+          source_facility_id?: string
+          status?: Database["public"]["Enums"]["workflow_status"]
+          travel_minutes?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "redistribution_recommendations_destination_facility_id_fkey"
+            columns: ["destination_facility_id"]
+            isOneToOne: false
+            referencedRelation: "facilities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "redistribution_recommendations_source_facility_id_fkey"
+            columns: ["source_facility_id"]
+            isOneToOne: false
+            referencedRelation: "facilities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shortage_predictions: {
+        Row: {
+          confidence: number
+          contributing_factors: string[]
+          created_at: string
+          id: string
+          inventory_item_id: string
+          is_demo: boolean
+          model_version: string
+          predicted_at: string
+          predicted_days_remaining: number
+          risk: Database["public"]["Enums"]["risk_level"]
+        }
+        Insert: {
+          confidence: number
+          contributing_factors?: string[]
+          created_at?: string
+          id?: string
+          inventory_item_id: string
+          is_demo?: boolean
+          model_version?: string
+          predicted_at?: string
+          predicted_days_remaining: number
+          risk: Database["public"]["Enums"]["risk_level"]
+        }
+        Update: {
+          confidence?: number
+          contributing_factors?: string[]
+          created_at?: string
+          id?: string
+          inventory_item_id?: string
+          is_demo?: boolean
+          model_version?: string
+          predicted_at?: string
+          predicted_days_remaining?: number
+          risk?: Database["public"]["Enums"]["risk_level"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shortage_predictions_inventory_item_id_fkey"
+            columns: ["inventory_item_id"]
+            isOneToOne: false
+            referencedRelation: "inventory_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +491,24 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      app_role:
+        | "PHC_STAFF"
+        | "HOSPITAL_ADMIN"
+        | "DISTRICT_ADMIN"
+        | "EMERGENCY_COORDINATOR"
+        | "STATE_ANALYST"
+        | "SUPER_ADMIN"
+      facility_status: "healthy" | "warning" | "critical" | "offline"
+      risk_level: "critical" | "high" | "medium" | "low"
+      workflow_status:
+        | "pending"
+        | "approved"
+        | "rejected"
+        | "modified"
+        | "active"
+        | "responded"
+        | "resolved"
+        | "unavailable"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +635,27 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: [
+        "PHC_STAFF",
+        "HOSPITAL_ADMIN",
+        "DISTRICT_ADMIN",
+        "EMERGENCY_COORDINATOR",
+        "STATE_ANALYST",
+        "SUPER_ADMIN",
+      ],
+      facility_status: ["healthy", "warning", "critical", "offline"],
+      risk_level: ["critical", "high", "medium", "low"],
+      workflow_status: [
+        "pending",
+        "approved",
+        "rejected",
+        "modified",
+        "active",
+        "responded",
+        "resolved",
+        "unavailable",
+      ],
+    },
   },
 } as const

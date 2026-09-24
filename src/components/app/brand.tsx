@@ -1,0 +1,3 @@
+import logo from "@/assets/swasthyasetu-logo.jpeg.asset.json";
+import { cn } from "@/lib/utils";
+export function Brand({compact=false,className}:{compact?:boolean;className?:string}){return <div className={cn("flex items-center gap-3",className)}><img src={logo.url} alt="SwasthyaSetu-AI logo" className="size-11 rounded-md object-cover object-center mix-blend-multiply"/><div className={compact?"hidden group-data-[collapsible=icon]:hidden lg:block":""}><div className="font-display text-base font-bold text-foreground">SwasthyaSetu-AI</div><div className="text-[10px] font-semibold uppercase text-muted-foreground">Healthcare intelligence</div></div></div>}
