@@ -1,6 +1,6 @@
 // API-ready medicine service. Currently backed by a local mock database (DEMO DATA).
 export type MedicineRecord = { barcode: string; name: string; strength: string; unit: string };
-export type InventoryEntry = { barcode?: string; medicineName: string; strength?: string; quantity: number; minimumThreshold: number; batchNumber?: string; expiryDate?: string; lastUpdated: string };
+export type InventoryEntry = { barcode?: string | undefined; medicineName: string; strength?: string | undefined; quantity: number; minimumThreshold: number; batchNumber?: string | undefined; expiryDate?: string | undefined; lastUpdated: string };
 
 const MOCK_DB: MedicineRecord[] = [
   { barcode: "8901234567890", name: "Paracetamol", strength: "500mg", unit: "tablets" },

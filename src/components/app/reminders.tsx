@@ -25,7 +25,7 @@ export function ReminderBanners({ kinds }: { kinds?: ReminderKind[] }) {
         <p className="mt-1 text-xs text-muted-foreground">Last updated: {formatLast(lastOf(k, state))}{overdue && <span className="ml-2 font-bold text-warning-foreground">⚠ {k === "beds" ? "Bed availability" : k === "doctors" ? "Doctor availability" : "Medicine inventory"} update overdue</span>}</p>
       </div>
       <div className="flex gap-2">
-        <Button size="sm" asChild><Link to={m.to} hash={k === "medicine" ? undefined : k}>{m.cta}</Link></Button>
+        <Button size="sm" asChild><Link to={m.to}>{m.cta}</Link></Button>
         <Button size="sm" variant="outline" onClick={() => snooze(k)}>Remind Me Later</Button>
       </div>
     </div>); })}</div>;
