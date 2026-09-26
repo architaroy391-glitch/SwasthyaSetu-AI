@@ -57,7 +57,7 @@ export function ProfileMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild><Link to="/profile" search={{}}><User />View Profile</Link></DropdownMenuItem>
+        <DropdownMenuItem asChild><Link to="/profile" search={{ edit: false }}><User />View Profile</Link></DropdownMenuItem>
         <DropdownMenuItem asChild><Link to="/profile" search={{ edit: true }}><Pencil />Update Profile</Link></DropdownMenuItem>
         <DropdownMenuSub>
           <DropdownMenuSubTrigger><Moon className="mr-2 size-4" />Dark Mode</DropdownMenuSubTrigger>

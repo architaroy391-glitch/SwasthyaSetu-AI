@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/_authenticated/profile")({
-  validateSearch: (s: Record<string, unknown>) => ({ edit: s.edit === true || s.edit === "true" ? true : undefined }),
+  validateSearch: (s: Record<string, unknown>): { edit: boolean } => ({ edit: s["edit"] === true || s["edit"] === "true" }),
   head: () => ({ meta: [
     { title: "Profile — SwasthyaSetu-AI" },
     { name: "description", content: "Manage your profile, photo, and hospital verification." },
@@ -58,8 +58,8 @@ function ProfilePage() {
     const file = e.target.files?.[0];
     e.target.value = "";
     if (!file) return;
-    if (!PHOTO_TYPES.includes(file.type)) return toast.error("Use a JPG, PNG or WEBP image.");
-    if (file.size > 5 * 1024 * 1024) return toast.error("Photo must be under 5 MB.");
+    if (!PHOTO_TYPES.includes(file.type)) { toast.error("Use a JPG, PNG or WEBP image."); return; }
+    if (file.size > 5 * 1024 * 1024) { toast.error("Photo must be under 5 MB."); return; }
     setPreview({ file, url: URL.createObjectURL(file) });
   }
   async function savePhoto() {
@@ -73,7 +73,7 @@ function ProfilePage() {
       if (old) await supabase.storage.from("avatars").remove([old]);
     }
     setBusy(false);
-    if (error) return toast.error("Couldn't upload the photo. Try again.");
+    if (error) { toast.error("Couldn't upload the photo. Try again."); return; }
     setPreview(null); await refresh(); toast.success("Profile photo updated.");
   }
   async function removePhoto() {
@@ -87,13 +87,13 @@ function ProfilePage() {
     e.preventDefault();
     if (!acc) return;
     const r = schema.safeParse(form);
-    if (!r.success) return toast.error(r.error.issues[0]?.message ?? "Check the form");
-    if (staff && (!r.data.hospital_name || !r.data.hospital_id)) return toast.error("Hospital name and ID are required.");
+    if (!r.success) { toast.error(r.error.issues[0]?.message ?? "Check the form"); return; }
+    if (staff && (!r.data.hospital_name || !r.data.hospital_id)) { toast.error("Hospital name and ID are required."); return; }
     setBusy(true);
     try {
-      const update: Record<string, string | null> = { full_name: r.data.full_name, phone: r.data.phone || null };
-      if (staff) { update.hospital_name = r.data.hospital_name; update.hospital_id = r.data.hospital_id; }
-      if (staff && idCard) update.id_card_path = await uploadIdCard(acc.userId, idCard);
+      const update: { full_name: string; phone: string | null; hospital_name?: string; hospital_id?: string; id_card_path?: string } = { full_name: r.data.full_name, phone: r.data.phone || null };
+      if (staff) { update["hospital_name"] = r.data.hospital_name; update["hospital_id"] = r.data.hospital_id; }
+      if (staff && idCard) update["id_card_path"] = await uploadIdCard(acc.userId, idCard);
       const { error } = await supabase.from("profiles").update(update).eq("id", acc.userId);
       if (error) throw error;
       setIdCard(null); await refresh();

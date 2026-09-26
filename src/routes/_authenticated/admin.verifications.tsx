@@ -48,14 +48,14 @@ function VerificationsPage() {
   const rows = tab === "pending" ? data.filter((p) => p.verification_status === "pending" || p.verification_status === "more_info") : data;
 
   async function viewCard(p: Profile) {
-    if (!p.id_card_path) return toast.error("No ID card attached yet.");
+    if (!p.id_card_path) { toast.error("No ID card attached yet."); return; }
     const { data } = await supabase.storage.from("id-cards").createSignedUrl(p.id_card_path, 120);
-    if (!data) return toast.error("Couldn't open the ID card.");
+    if (!data) { toast.error("Couldn't open the ID card."); return; }
     setCard({ url: data.signedUrl, pdf: p.id_card_path.endsWith(".pdf") });
   }
   async function decide(p: Profile, status: Status, note: string | null) {
     const { error } = await supabase.from("profiles").update({ verification_status: status, verification_note: note }).eq("id", p.id);
-    if (error) return toast.error("Couldn't update the request.");
+    if (error) { toast.error("Couldn't update the request."); return; }
     toast.success(status === "verified" ? `${p.full_name} verified.` : "Request updated.");
     qc.invalidateQueries({ queryKey: ["verifications"] });
   }
