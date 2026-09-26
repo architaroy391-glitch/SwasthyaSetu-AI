@@ -349,6 +349,69 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          account_type: string
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string
+          hospital_district: string | null
+          hospital_id: string | null
+          hospital_name: string | null
+          hospital_state: string | null
+          id: string
+          id_card_path: string | null
+          phone: string | null
+          submitted_at: string | null
+          updated_at: string
+          verification_note: string | null
+          verification_status: Database["public"]["Enums"]["verification_status"]
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          account_type?: string
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          hospital_district?: string | null
+          hospital_id?: string | null
+          hospital_name?: string | null
+          hospital_state?: string | null
+          id: string
+          id_card_path?: string | null
+          phone?: string | null
+          submitted_at?: string | null
+          updated_at?: string
+          verification_note?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          account_type?: string
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          hospital_district?: string | null
+          hospital_id?: string | null
+          hospital_name?: string | null
+          hospital_state?: string | null
+          id?: string
+          id_card_path?: string | null
+          phone?: string | null
+          submitted_at?: string | null
+          updated_at?: string
+          verification_note?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: []
+      }
       redistribution_recommendations: {
         Row: {
           created_at: string
@@ -488,7 +551,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin_user: { Args: never; Returns: boolean }
     }
     Enums: {
       app_role:
@@ -500,6 +563,12 @@ export type Database = {
         | "SUPER_ADMIN"
       facility_status: "healthy" | "warning" | "critical" | "offline"
       risk_level: "critical" | "high" | "medium" | "low"
+      verification_status:
+        | "not_applicable"
+        | "pending"
+        | "verified"
+        | "rejected"
+        | "more_info"
       workflow_status:
         | "pending"
         | "approved"
@@ -646,6 +715,13 @@ export const Constants = {
       ],
       facility_status: ["healthy", "warning", "critical", "offline"],
       risk_level: ["critical", "high", "medium", "low"],
+      verification_status: [
+        "not_applicable",
+        "pending",
+        "verified",
+        "rejected",
+        "more_info",
+      ],
       workflow_status: [
         "pending",
         "approved",
