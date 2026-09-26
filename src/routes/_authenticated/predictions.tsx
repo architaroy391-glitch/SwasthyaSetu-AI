@@ -1,3 +1,4 @@
+import { RequireAccess } from "@/components/app/access";
 import { createFileRoute } from "@tanstack/react-router";
 import { PredictionsPage } from "@/components/app/operational-pages";
 export const Route = createFileRoute("/_authenticated/predictions")({
@@ -9,5 +10,5 @@ export const Route = createFileRoute("/_authenticated/predictions")({
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
   ] }),
-  component: PredictionsPage,
+  component: () => <RequireAccess need="staff"><PredictionsPage/></RequireAccess>,
 });

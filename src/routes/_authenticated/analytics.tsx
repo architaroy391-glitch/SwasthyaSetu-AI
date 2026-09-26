@@ -1,3 +1,4 @@
+import { RequireAccess } from "@/components/app/access";
 import { createFileRoute } from "@tanstack/react-router";
 import { AnalyticsPage } from "@/components/app/operational-pages";
 export const Route = createFileRoute("/_authenticated/analytics")({
@@ -9,5 +10,5 @@ export const Route = createFileRoute("/_authenticated/analytics")({
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
   ] }),
-  component: AnalyticsPage,
+  component: () => <RequireAccess need="staff"><AnalyticsPage/></RequireAccess>,
 });
