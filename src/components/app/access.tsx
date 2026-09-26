@@ -42,7 +42,7 @@ export function VerificationStatusCard({ account }: { account: Account }) {
         <div><dt className="font-semibold">Hospital ID</dt><dd>{p.hospital_id || "—"}</dd></div>
       </dl>
       {!p.id_card_path && p.verification_status !== "verified" && (
-        <p className="mt-3 text-xs font-semibold">Hospital ID card not attached yet — <Link to="/profile" className="underline">upload it on your profile</Link>.</p>
+        <p className="mt-3 text-xs font-semibold">Hospital ID card not attached yet — <Link to="/profile" search={{}} className="underline">upload it on your profile</Link>.</p>
       )}
     </div>
   );

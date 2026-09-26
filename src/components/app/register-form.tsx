@@ -39,9 +39,9 @@ export function RegisterForm({ onDone }: { onDone: () => void }) {
     const errs: Record<string, string> = {};
     if (!r.success) r.error.issues.forEach((i) => (errs[String(i.path[0])] = i.message));
     if (type === "hospital_staff") {
-      if (!idCard) errs.id_card = "Attach your hospital ID card";
-      else if (!ID_TYPES.includes(idCard.type)) errs.id_card = "Use JPG, PNG or PDF";
-      else if (idCard.size > 10 * 1024 * 1024) errs.id_card = "File must be under 10 MB";
+      if (!idCard) errs["id_card"] = "Attach your hospital ID card";
+      else if (!ID_TYPES.includes(idCard.type)) errs["id_card"] = "Use JPG, PNG or PDF";
+      else if (idCard.size > 10 * 1024 * 1024) errs["id_card"] = "File must be under 10 MB";
     }
     setErrors(errs);
     if (Object.keys(errs).length || !r.success) return;
@@ -104,7 +104,7 @@ export function RegisterForm({ onDone }: { onDone: () => void }) {
                 <Label htmlFor="r-id">Hospital ID card</Label>
                 <Input id="r-id" type="file" accept="image/jpeg,image/png,application/pdf" capture="environment" className="mt-2" onChange={(e) => setIdCard(e.target.files?.[0] ?? null)} />
                 <p className="mt-1 text-xs text-muted-foreground">JPG, PNG or PDF · camera capture supported on phones.</p>
-                {errors.id_card && <p className="mt-1 text-xs text-destructive">{errors.id_card}</p>}
+                {errors["id_card"] && <p className="mt-1 text-xs text-destructive">{errors["id_card"]}</p>}
               </div>
               <div className="rounded-md border border-warning/40 bg-warning-soft p-3 text-xs text-warning-foreground">
                 Your hospital affiliation must be verified before hospital-resource management features are enabled.<br />

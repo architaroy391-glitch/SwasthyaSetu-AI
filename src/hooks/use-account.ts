@@ -53,19 +53,19 @@ async function loadAccount(): Promise<Account | null> {
   let { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
   if (!profile) {
     const m = (user.user_metadata ?? {}) as Record<string, string | undefined>;
-    const staff = m.account_type === "hospital_staff";
+    const staff = m["account_type"] === "hospital_staff";
     const { data: created, error } = await supabase
       .from("profiles")
       .insert({
         id: user.id,
-        email: user.email,
-        full_name: m.full_name ?? m.name ?? "",
-        phone: m.phone ?? null,
+        email: user.email ?? null,
+        full_name: m["full_name"] ?? m["name"] ?? "",
+        phone: m["phone"] ?? null,
         account_type: staff ? "hospital_staff" : "normal_user",
-        hospital_name: staff ? m.hospital_name ?? null : null,
-        hospital_id: staff ? m.hospital_id ?? null : null,
-        hospital_state: staff ? m.hospital_state ?? null : null,
-        hospital_district: staff ? m.hospital_district ?? null : null,
+        hospital_name: staff ? m["hospital_name"] ?? null : null,
+        hospital_id: staff ? m["hospital_id"] ?? null : null,
+        hospital_state: staff ? m["hospital_state"] ?? null : null,
+        hospital_district: staff ? m["hospital_district"] ?? null : null,
       })
       .select("*")
       .single();
