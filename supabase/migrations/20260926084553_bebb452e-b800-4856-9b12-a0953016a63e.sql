@@ -1,1 +1,1 @@
-INSERT INTO public.user_roles (user_id, role) SELECT id, 'SUPER_ADMIN' FROM auth.users WHERE email = 'architaroy984@gmail.com' ON CONFLICT DO NOTHING;
+ 
